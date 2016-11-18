@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@(Html.Kendo().TreeList<ADUser_TreeList.Models.EmployeeDTO>()
+    .Name("treelist")
+    .Columns(columns =>
+    {
+        columns.Add().Field(f => f.cn).Width(250).Title("Employee CN");
+        columns.Add().Field(e => e.Id).Title("EmployeeId");
+        columns.Add().Field(e => e.Email).Title("Email");
+        columns.Add().Field(e => e.ManagerCn).Title("Manager CN");
+        columns.Add().Field(e => e.ManagerId).Title("Manager ID");
+        columns.Add().Field(e => e.Buerau).Title("Buerau");
+    })
+    .Reorderable(true)
+    .DataSource(dataSource => dataSource
+        .Read(read => read.Action("All", "Home"))
+        .Model(m =>
+        {
+            m.Id(f => f.Id);
+            m.ParentId(f => f.ManagerId);
+            m.Field(f => f.Email);
+            m.Field(f => f.Manager);
+            m.Field(f => f.TeamMember);
+            m.Field(f => f.ManagerCn);
+            m.Field(f => f.Buerau);
+            m.Field(f => f.TeamMember);
+        })
+    )
+)
